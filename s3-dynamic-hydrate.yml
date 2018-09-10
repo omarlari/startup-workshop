@@ -16,11 +16,10 @@ items:
       enabled: false
       prefix: "archive"
 
-  - apiVersion: batch/v1
+- apiVersion: batch/v1
   kind: Job
   metadata:
     name: static-hydrate
-  backoffLimit: 1
   spec:
     template:
       spec:
@@ -38,3 +37,4 @@ items:
           command: ["python"]
           args: ["dynamic.py", "$(ELB_ENDPOINT)", "$(S3_BUCKET)"]
         restartPolicy: Never
+    backoffLimit: 1
