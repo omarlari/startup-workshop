@@ -4,7 +4,7 @@ items:
 - apiVersion: operator.aws/v1alpha1
   kind: S3Bucket
   metadata:
-    name: aws-operator-workshop-101
+    name: aws-operator-workshop-olari
   spec:
     versioning: false
     accessControl: PublicRead
@@ -16,11 +16,10 @@ items:
       enabled: false
       prefix: "archive"
 
-  - apiVersion: batch/v1
+- apiVersion: batch/v1
   kind: Job
   metadata:
     name: static-hydrate
-  backoffLimit: 1
   spec:
     template:
       spec:
@@ -36,3 +35,4 @@ items:
           command: ["aws"]
           args: ["s3", "cp", "static/index.html", "s3://$(S3_BUCKET)"]
         restartPolicy: Never
+    backoffLimit: 1

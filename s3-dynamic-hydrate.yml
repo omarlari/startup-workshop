@@ -34,7 +34,7 @@ items:
                   name: aws-operator-workshop-101
                   key: bucketName
             - name: ELB_ENDPOINT
-              value: a72f1dc08b38811e8b37d02b9400b5d1-650126486.us-west-2.elb.amazonaws.com
+              value: $YOUR_ELB_ENDPOINT_HERE
           command: ["python"]
           args: ["dynamic.py", "$(ELB_ENDPOINT)", "$(S3_BUCKET)"]
         restartPolicy: Never

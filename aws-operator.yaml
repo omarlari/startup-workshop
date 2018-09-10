@@ -94,4 +94,4 @@ items:
             - --cluster-name=eksworkshop
             - --region=us-west-2
             - --bucket=olari-kube-operator
-            - --account-id=730936448067
+            - --account-id=$YOUR_ACCOUNT_ID
