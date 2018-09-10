@@ -4,7 +4,7 @@ items:
 - apiVersion: operator.aws/v1alpha1
   kind: S3Bucket
   metadata:
-    name: aws-operator-workshop-101
+    name: aws-operator-workshop-<APPEND_DATA_HERE>
   spec:
     versioning: false
     accessControl: PublicRead
@@ -19,22 +19,23 @@ items:
 - apiVersion: batch/v1
   kind: Job
   metadata:
-    name: static-hydrate
+    name: dynamic-hydrate
   spec:
     template:
       spec:
         containers:
         - name: hydrate
           image: omarlari/operator-demo-hydrate
+          imagePullPolicy: Always
           env:
             - name: S3_BUCKET
               valueFrom:
                 configMapKeyRef:
-                  name: aws-operator-workshop-101
+                  name: aws-operator-workshop-<APPEND_DATA_HERE>
                   key: bucketName
             - name: ELB_ENDPOINT
-              value: $YOUR_ELB_ENDPOINT_HERE
+              value: <INSERT_SERVICE_ENDPOINT_HERE>
           command: ["python"]
           args: ["dynamic.py", "$(ELB_ENDPOINT)", "$(S3_BUCKET)"]
         restartPolicy: Never
-    backoffLimit: 1
+    backoffLimit: 5
