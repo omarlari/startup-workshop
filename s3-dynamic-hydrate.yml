@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: List
+items:
+- apiVersion: operator.aws/v1alpha1
+  kind: S3Bucket
+  metadata:
+    name: aws-operator-workshop-101
+  spec:
+    versioning: false
+    accessControl: PublicRead
+    website:
+      enabled: true
+      indexPage: index.html
+      errorPage: 500.html
+    logging:
+      enabled: false
+      prefix: "archive"
+
+  - apiVersion: batch/v1
+  kind: Job
+  metadata:
+    name: static-hydrate
+  backoffLimit: 1
+  spec:
+    template:
+      spec:
+        containers:
+        - name: hydrate
+          image: omarlari/operator-demo-hydrate
+          env:
+            - name: S3_BUCKET
+              valueFrom:
+                configMapKeyRef:
+                  name: aws-operator-workshop-101
+                  key: bucketName
+            - name: ELB_ENDPOINT
+              value: a72f1dc08b38811e8b37d02b9400b5d1-650126486.us-west-2.elb.amazonaws.com
+          command: ["python"]
+          args: ["dynamic.py", "$(ELB_ENDPOINT)", "$(S3_BUCKET)"]
+        restartPolicy: Never
