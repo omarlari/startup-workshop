@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>kube-aws-operator-demo</title>
+  <style>
+  </style>
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+<body>
+
+  <h1></h1>
+  <h2></h2>
+  <h3></h3>
+<script>
+(function() {
+  var myUrl = '$MY_URL';
+  var proxy = 'https://cors-anywhere.herokuapp.com/';
+  $.getJSON( proxy + myUrl, {
+    //tags: "mount rainier",
+    //tagmode: "any",
+    format: "json"
+  })
+    .done(function( data ) {
+      $.each( data.items, function( i, item ) {
+        console.log(item);
+        $( "h1" ).append("Item Name: ", item.name);
+        $( "h2" ).append("Item Description: ", item.description);
+        $( "h3" ).append("Created at: ", item.created_at);
+      });
+    });
+})();
+</script>
+
+</body>
+</html>
